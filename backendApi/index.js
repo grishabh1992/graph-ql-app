@@ -1,31 +1,29 @@
 const express = require('express');
-const { graphqlHTTP } = require('express-graphql');
+const { ApolloServer } = require('apollo-server-express');
 const cors = require('cors');
-const app = express();
-// store config variables in dotenv
+
 require('dotenv').config();
-schema = require('./schema/schema'); // uncomment this for MONGODB
+const { typeDefs, resolvers } = require('./schema/schema');
 
-// ****** Set up default mongoose connection START ****** //
+
 const mongoose = require('mongoose');
-// var mongoDB = process.env.mongoDBMLABURL; // cloud hosted MongoDB
-var mongoDB = process.env.mongoDBLocalURL; // locally hosted MongoDB
+const mongoDB = process.env.mongoDBURL;
 mongoose.connect(mongoDB);
-
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 mongoose.connection.once('open', () => {
     console.log('conneted to MONGODB- ElishERP database');
 });
-// ****** Set up default mongoose connection END ****** //
 
-// ****** allow cross-origin requests code START ****** //
+const app = express();
 app.use(cors());
-// ****** allow cross-origin requests code END ****** //
+
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+});
 
 // bind express with graphql
-app.use('/graphql', graphqlHTTP({
-    schema,
-    graphiql: false
-}));
-app.use('/', (req, res) => res.send("Welcome ElishERP User"));
-app.listen(process.env.PORT, () => console.log('Elish Enterprise Server is ready on localhost:' + process.env.PORT));
+server.applyMiddleware({ app, path: '/graphql' });
+
+app.use('/', (req, res) => res.send("Welcome GraphQL Example"));
+app.listen(process.env.PORT, () => console.log('Server is ready on localhost:' + process.env.PORT));
