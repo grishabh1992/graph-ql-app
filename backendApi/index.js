@@ -11,7 +11,7 @@ const mongoDB = process.env.mongoDBURL;
 mongoose.connect(mongoDB);
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 mongoose.connection.once('open', () => {
-    console.log('conneted to MONGODB- ElishERP database');
+    console.log('conneted to MONGODB');
 });
 
 const app = express();
