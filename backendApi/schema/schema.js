@@ -4,11 +4,13 @@ const {
   getNoteResolver,
   getNotesResolver,
   createNoteResolver,
+  deleteNoteResolver,
 } = require('../resolver/resolver');
 const {
   getNotes,
   getNote,
-  createNote
+  createNote,
+  deleteNote,
 } = require('../data-access/mongo-db/connector');
 
 const typeDefs = gql`
@@ -21,26 +23,32 @@ const typeDefs = gql`
     date: String!
   }
 
+  type Message {
+    message: String
+  }
+
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
-    GetNotesQuery: [Note]
+    notes: [Note]
     GetNoteQuery(_id:String!,name:String,date:String): Note
   }
 
   type Mutation {
-    addNoteMutation(name:String!): Note
+    addNote(name:String!): Note
+    deleteNote(_id:String!): Message
   }
 `;
 
 const resolvers = {
   Query: {
-    GetNotesQuery: (_, args, context) => getNotesResolver(context, getNotes),
+    notes: (_, args, context) => getNotesResolver(context, getNotes),
     GetNoteQuery: (_, args, context) => getNoteResolver(args, getNote),
   },
   Mutation: {
-    addNoteMutation: (_, args, context) => createNoteResolver(args, createNote),
+    addNote: (_, args, context) => createNoteResolver(args, createNote),
+    deleteNote: (_, args, context) => deleteNoteResolver(args, deleteNote),
   }
 };
 
