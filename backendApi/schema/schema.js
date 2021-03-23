@@ -5,12 +5,14 @@ const {
   getNotesResolver,
   createNoteResolver,
   deleteNoteResolver,
+  updateNoteResolver,
 } = require('../resolver/resolver');
 const {
   getNotes,
   getNote,
   createNote,
   deleteNote,
+  updateNote,
 } = require('../data-access/mongo-db/connector');
 
 const typeDefs = gql`
@@ -38,6 +40,7 @@ const typeDefs = gql`
   type Mutation {
     addNote(name:String!): Note
     deleteNote(_id:String!): Message
+    updateNote(_id:String!, name:String!): Message
   }
 `;
 
@@ -48,6 +51,7 @@ const resolvers = {
   },
   Mutation: {
     addNote: (_, args, context) => createNoteResolver(args, createNote),
+    updateNote: (_, args, context) => updateNoteResolver(args, updateNote),
     deleteNote: (_, args, context) => deleteNoteResolver(args, deleteNote),
   }
 };

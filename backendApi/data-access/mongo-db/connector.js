@@ -24,6 +24,19 @@ const createNote = input => {
     return input;
 };
 
+const updateNote = input => {
+    return User.findByIdAndUpdate(input.id, input, function (err, res) {
+        if (err) {
+            console.log(err);
+        }
+        if (res) {
+            return { message: "Success" };
+        } else {
+            return { message: "Not able to update data." };
+        }
+    });
+}
+
 const deleteNote = input => {
     return Note.findByIdAndRemove(input._id, function (err, res) {
         if (err) {
@@ -40,5 +53,6 @@ module.exports = {
     getNotes,
     getNote,
     createNote,
+    updateNote,
     deleteNote,
 };

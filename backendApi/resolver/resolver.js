@@ -19,6 +19,16 @@ const createNoteResolver = (input, connectorQuery) => {
     return connectorQuery.apply(this, [input]);
 };
 
+const updateNoteResolver = (input, connectorQuery) => {
+    console.log(input);
+    if (!input || !input.name || !input._id) {
+        throw new noInputError({
+            message: `You must supply a valid Input!`
+        });
+    }
+    return connectorQuery.apply(this, [input]);
+};
+
 const deleteNoteResolver = (input, connectorQuery) => {
     console.log(input);
     if (!input) {
@@ -34,4 +44,5 @@ module.exports = {
     getNotesResolver,
     createNoteResolver,
     deleteNoteResolver,
+    updateNoteResolver,
 };

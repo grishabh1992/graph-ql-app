@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { AddNote, DeleteNote } from './app.constant';
-export interface Note { name: string, _id?: string }
+import { AddNote, DeleteNote, UpdateNote } from './app.constant';
+export interface Note { name: string, _id?: string, date?: string }
 
 @Component({
   selector: 'app-root',
@@ -22,10 +22,11 @@ export class AppComponent implements OnInit {
     let query;
     if (this.isEdit) {
       query = this.apollo.mutate({
-        mutation: AddNote,
+        mutation: UpdateNote,
         variables: {
-          title: this.note.name
-          // _id: this.note._id
+          title: this.note.name,
+          _id: this.note._id,
+          date: this.note.date
         }
       });
     } else {
