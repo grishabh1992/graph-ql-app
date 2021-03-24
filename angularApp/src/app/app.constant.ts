@@ -12,9 +12,7 @@ mutation addNote($title: String!) {
 export const UpdateNote = gql`
 mutation updateNote($_id:String!, $title: String!, $date: String!) {
   updateNote(_id: $_id, name: $title, date: $date) {
-    _id
-    name
-    date
+    message
   }
 }
 `;

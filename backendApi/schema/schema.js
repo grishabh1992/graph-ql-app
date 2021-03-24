@@ -40,7 +40,7 @@ const typeDefs = gql`
   type Mutation {
     addNote(name:String!): Note
     deleteNote(_id:String!): Message
-    updateNote(_id:String!, name:String!): Message
+    updateNote(_id:String!, name:String!,date:String): Message
   }
 `;
 

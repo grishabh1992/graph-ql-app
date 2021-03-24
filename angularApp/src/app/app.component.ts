@@ -10,11 +10,12 @@ export interface Note { name: string, _id?: string, date?: string }
 })
 export class AppComponent implements OnInit {
   notes: any = [];
-  note: Note = { name: '' };
+  note: Note;
   isEdit: boolean = false;
   constructor(private apollo: Apollo) { }
 
   ngOnInit() {
+    this.initNote();
     this.getNotes();
   }
 
@@ -61,14 +62,16 @@ export class AppComponent implements OnInit {
 
   edit(note: Note) {
     this.isEdit = true;
-    this.note = note;
+    this.note = {...note};
   }
 
   reset() {
     this.isEdit = false;
-    this.note = {
-      name: ''
-    };
+    this.initNote();
+  }
+
+  initNote() {
+    this.note = {...{ name: '', date: '' }};
   }
 
   getNoteQuery() {

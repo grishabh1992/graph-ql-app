@@ -25,7 +25,7 @@ const createNote = input => {
 };
 
 const updateNote = input => {
-    return User.findByIdAndUpdate(input.id, input, function (err, res) {
+    return Note.findByIdAndUpdate(input._id, input, function (err, res) {
         if (err) {
             console.log(err);
         }
